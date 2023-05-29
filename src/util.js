@@ -2,6 +2,7 @@ import { ObeliskResponse } from "./response.js";
 
 export const DED = { statusCode: 500 };
 
+/** @deprecated */
 export async function tryDefaultRoute(router, event) {
 	if (router.defaultRoute) {
 		/** @type {ObeliskResponse} */
@@ -13,6 +14,7 @@ export async function tryDefaultRoute(router, event) {
 			}),
 		);
 
+		// @ts-ignore
 		if (result) {
 			return {
 				statusCode: result.statusCode,

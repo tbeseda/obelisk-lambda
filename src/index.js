@@ -1,7 +1,9 @@
 import { ObeliskResponse } from "./response.js";
 import { tryDefaultRoute } from "./util.js";
+export { ObeliskRouter } from "./router.js";
 
-export default function ({ router }) {
+/** @deprecated */
+export function adapter({ router }) {
 	if (!router || router.routes.length === 0) throw new Error("Invalid router");
 
 	router.ignoreDuplicateSlashes = true; // symmetry with API Gateway
@@ -36,6 +38,7 @@ export default function ({ router }) {
 				found.searchParams,
 			);
 
+			// @ts-ignore
 			if (result) {
 				return {
 					statusCode: result.statusCode,
