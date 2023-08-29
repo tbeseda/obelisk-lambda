@@ -8,7 +8,7 @@
     "index.js"
   ],
   "scripts": {
-    "lint": "rome ci index.js",
+    "lint": "biome ci index.js",
     "tape": "tape './test/**/*-test.js' | tap-arc",
     "test": "npm run lint && npm run tape"
   },
@@ -18,8 +18,8 @@
     "find-my-way": "^7.6.2"
   },
   "devDependencies": {
-    "@types/aws-lambda": "^8.10.115",
-    "rome": "12.1.2",
+    "@biomejs/biome": "^1.0.0",
+    "@types/aws-lambda": "^8.10.119",
     "tap-arc": "^0.4.0",
     "tape": "^5.6.6"
   }
