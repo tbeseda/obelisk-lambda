@@ -8,7 +8,7 @@
     "index.js"
   ],
   "scripts": {
-    "lint": "rome ci src",
+    "lint": "rome ci index.js",
     "tape": "tape './test/**/*-test.js' | tap-arc",
     "test": "npm run lint && npm run tape"
   },
