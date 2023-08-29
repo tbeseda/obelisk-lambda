@@ -20,7 +20,7 @@ router.on(
   async ({ params, store, searchParams }) => {
     const { lat, long, r } = params
 
-    // use coordinates and radius to find the thing
+    // use coordinates and r (radius) to find the thing
 
     return {
       statusCode: 200,

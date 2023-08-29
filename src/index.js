@@ -2,6 +2,8 @@ import { ObeliskResponse } from "./response.js";
 import { tryDefaultRoute } from "./util.js";
 export { ObeliskRouter } from "./router.js";
 
+// TODO: remove in v0.1.0
+// This adapter is deprecated and untested.
 /** @deprecated */
 export function adapter({ router }) {
 	if (!router || router.routes.length === 0) throw new Error("Invalid router");

@@ -1,14 +1,10 @@
-import { ServerResponse } from "node:http";
 import FindMyWay from "find-my-way";
 
 export class ObeliskRouter {
 	#router;
-	#routes;
 	#defaultRoute;
 
 	constructor({ defaultRoute }) {
-		this.#routes = [];
-		// TODO re-map default route from (req, res) pattern to (options)
 		this.#defaultRoute = defaultRoute;
 		this.#router = FindMyWay({
 			ignoreTrailingSlash: true,
@@ -16,72 +12,58 @@ export class ObeliskRouter {
 		});
 	}
 
-	get routes() {
-		return this.#routes;
-	}
-
-	get defaultRoute() {
-		return this.#defaultRoute;
-	}
-
 	prettyPrint() {
 		return this.#router.prettyPrint();
 	}
 
 	on(method, path, handler) {
-		this.#router.on(
-			method,
-			path,
-			async (req, _res, params, store, searchParams) => {
-				return handler({
-					event: req,
-					params,
-					store,
-					searchParams,
-					_res, // ? remove to avoid confusion
-				});
-			},
-		);
-		this.#routes.push({ method, path, handler });
+		// add route to internal find-my-way router
+		this.#router.on(method, path, handler);
 	}
 
 	mount() {
-		/** @type {import("aws-lambda").Handler} */
+		/**
+		 * @description Mount the router as a Lambda handler
+		 * @param {import("aws-lambda").APIGatewayProxyEventV2} event
+		 * @param {import("aws-lambda").Context} context
+		 */
 		return async (event, context) => {
 			const {
 				rawPath,
-				queryStringParameters,
 				rawQueryString,
+				queryStringParameters,
 				requestContext: { http: reqHttp },
 			} = event;
 
-			let originalPath = rawPath;
-			originalPath += queryStringParameters ? `?${rawQueryString}` : "";
+			const method = /** @type {FindMyWay.HTTPMethod} */ (reqHttp.method);
 
-			const found = this.#router.find(reqHttp.method, originalPath);
+			let payload = { event, context };
+
+			let originalPath = rawPath;
+			if (queryStringParameters) originalPath += `?${rawQueryString}`;
+
+			// look for matching route without invoking it
+			const found = this.#router.find(method, originalPath);
 
 			if (found?.handler) {
-				const { handler, params, store, searchParams } = found;
-				const returnResult = await handler(
-					event, // an API Gateway event, not a Node.js IncomingMessage
-					new ServerResponse(event), // shim - will no-op
+				const { handler, params, searchParams, store } = found;
+				payload = {
+					...payload,
 					params,
-					store,
 					searchParams,
-				);
+					store,
+				};
+
+				// @ts-ignore send Obelisk payload instead of FindMyWay's ordered args
+				const returnResult = await handler(payload);
 
 				if (returnResult) {
 					return returnResult;
 				} else {
-					return await this.#defaultRoute({
-						event,
-						params,
-						store,
-						searchParams,
-					});
+					return await this.#defaultRoute(payload);
 				}
 			} else {
-				return await this.#defaultRoute({ event });
+				return await this.#defaultRoute(payload);
 			}
 		};
 	}
