@@ -4,7 +4,11 @@ import { ObeliskRouter } from "obelisk-lambda";
 import someHtml from "./some-html.mjs";
 
 const router = new ObeliskRouter({
-	defaultRoute: () => {
+	defaultRoute: (payload) => {
+		// event and context are always available
+		// params, searchParams, and store are only available if a route was matched
+		console.log("defaultRoute", payload.event.rawPath, Object.keys(payload));
+
 		return {
 			statusCode: 404,
 			headers: { "content-type": "text/plain; charset=utf8" },
@@ -40,13 +44,14 @@ router.on("GET", "/router", () => {
 });
 
 router.on("GET", "/silent", () => {
-	// this will trigger defaultRoute
+	// since no value is returned, the router's defaultRoute will be called
 	console.log("shhhh");
 });
 
 const theForm = /*html*/ `
 <form method="POST">
-	<input type="text" name="foo" />
+	<label for="foo">foo</label>
+	<input type="text" name="foo" placeholder="bar" />
 	<input type="submit" />
 </form>
 <p><a href="/">home</a></p>
@@ -96,7 +101,7 @@ router.on(
 		return {
 			statusCode: 200,
 			headers: { "content-type": "application/json" },
-			body: JSON.stringify({ ...params, ...store, ...searchParams }),
+			body: JSON.stringify({ params, store, searchParams }),
 		};
 	},
 );

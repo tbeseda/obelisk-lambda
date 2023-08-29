@@ -52,7 +52,8 @@ export default /*html*/ `
 		<li><a href="/things/near/123-456/radius/789?foo=bar">/things/near/123-456/radius/789?foo=bar</a> returns complex params as JSON<sup>3</sup></li>
 		<li><a href="/form">/form</a> a form that POSTs to itself -- been a while since you seen that, eh?</li>
 		<li><a href="/router">/router</a> displays the same route map as text/plain</li>
-		<li><a href="/silent">/silent</a> a route that fails to respond. the <code>find-my-way</code> router's default route (404) picks up</li>
+		<li><a href="/silent">/silent</a> a defined route that doesn't return a value. The router's default route picks up</li>
+		<li><a href="/not-found">/not-found</a> a route that doesn't exist. The router's default route picks up</li>
 		<li><a href="/throw">/throw</a> will throw-throw and does not fall back to the router's default route</li>
 	</ul>
 
@@ -89,7 +90,7 @@ router.on(
 		return {
 			statusCode: 200,
 			headers: { "content-type": "application/json" },
-			body: JSON.stringify({ ...params, ...store, ...searchParams }),
+			body: JSON.stringify({ params, store, searchParams }),
 		};
 	},
 );

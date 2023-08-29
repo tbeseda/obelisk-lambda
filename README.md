@@ -25,7 +25,7 @@ router.on(
     return {
       statusCode: 200,
       headers: { "content-type": "application/json" },
-      body: JSON.stringify({ ...params, ...store, ...searchParams }),
+      body: JSON.stringify({ params, store, searchParams }),
     };
   },
 );
