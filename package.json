@@ -8,8 +8,9 @@
     "src"
   ],
   "scripts": {
-    "lint": "npx rome ci src",
-    "test": "npm run lint && npx tap"
+    "lint": "rome ci src",
+    "tape": "tape './test/**/*-test.js' | tap-arc",
+    "test": "npm run lint && npm run tape"
   },
   "author": "tbeseda",
   "license": "MIT",
@@ -19,6 +20,7 @@
   "devDependencies": {
     "@types/aws-lambda": "^8.10.115",
     "rome": "12.1.2",
-    "tap": "^16.3.4"
+    "tap-arc": "^0.4.0",
+    "tape": "^5.6.6"
   }
 }
