@@ -1,5 +1,5 @@
 import test from "tape";
-import { ObeliskRouter } from "../src/index.js";
+import { ObeliskRouter } from "../index.js";
 import router from "../example/src/http/any-catchall/router.mjs";
 import { rootRequest, context } from "./mocks.js";
 
