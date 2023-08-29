@@ -20,11 +20,19 @@ const context = {
 };
 
 /** @type {Event} */
-const rootRequest = {
+const event = {
 	version: "2.0",
-	rawPath: "/",
-	rawQueryString: "",
-	queryStringParameters: {},
+	rawPath: "/my/path",
+	rawQueryString: "parameter1=value1&parameter1=value2&parameter2=value",
+	headers: {
+		header1: "value1",
+		header2: "value1,value2",
+	},
+	queryStringParameters: {
+		parameter1: "value1,value2",
+		parameter2: "value",
+	},
+	pathParameters: { parameter1: "value1" },
 	requestContext: {
 		// @ts-ignore
 		http: {
@@ -34,20 +42,13 @@ const rootRequest = {
 };
 
 /** @type {Event} */
-const event = {
-	version: "2.0",
-	rawPath: "/my/path",
-	rawQueryString: "parameter1=value1&parameter1=value2&parameter2=value",
-	queryStringParameters: {
-		parameter1: "value1,value2",
-		parameter2: "value",
-	},
-	requestContext: {
-		// @ts-ignore
-		http: {
-			method: "GET",
-		},
-	},
+const rootRequest = {
+	...event,
+	rawPath: "/",
+	rawQueryString: "",
+	headers: {},
+	queryStringParameters: {},
+	pathParameters: {},
 };
 
 export { event, rootRequest, context };
