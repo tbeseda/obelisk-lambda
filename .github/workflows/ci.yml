@@ -16,5 +16,10 @@ jobs:
     - uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm ci
-    - run: npm test
+    - name: set up example
+      run: npm ci
+      working-directory: ./example
+    - name: install dependencies
+      run: npm ci
+    - name: run tests
+      run: npm test
