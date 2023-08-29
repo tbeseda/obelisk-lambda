@@ -1,0 +1,12 @@
+{
+  "scripts": {
+    "start": "sandbox",
+    "test": "echo \"test it, dummy\" && exit 1"
+  },
+  "dependencies": {
+    "obelisk-lambda": "file:../"
+  },
+  "devDependencies": {
+    "@architect/sandbox": "^5.8.0"
+  }
+}
