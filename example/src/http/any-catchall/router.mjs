@@ -87,10 +87,11 @@ router.on("GET", "/throw", () => {
 });
 
 router.on("GET", "/things/:id", ({ params }) => {
+	const { id } = params;
 	return {
 		statusCode: 200,
 		headers: { "content-type": "application/json" },
-		body: JSON.stringify(params),
+		body: JSON.stringify({ thingId: id }),
 	};
 });
 
