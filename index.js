@@ -1,12 +1,12 @@
 import FindMyWay from "find-my-way";
 
 export class ObeliskRouter {
-	#defaultRoute;
+	defaultRoute;
 	router;
 	handlers = new Map();
 
 	constructor({ defaultRoute }) {
-		this.#defaultRoute = defaultRoute;
+		this.defaultRoute = defaultRoute;
 		this.router = FindMyWay({
 			ignoreTrailingSlash: true,
 			caseSensitive: false,
@@ -31,6 +31,8 @@ export class ObeliskRouter {
 		const routeKey = { method, path, options };
 		this.handlers.set(routeKey, handler);
 		this.router.on(method, path, options, () => routeKey, store);
+
+		return routeKey;
 	}
 
 	/**
@@ -78,10 +80,10 @@ export class ObeliskRouter {
 				if (returnResult) {
 					return returnResult;
 				} else {
-					return this.#defaultRoute(payload);
+					return this.defaultRoute(payload);
 				}
 			} else {
-				return this.#defaultRoute(payload);
+				return this.defaultRoute(payload);
 			}
 		};
 	}
