@@ -8,7 +8,7 @@
     "index.js"
   ],
   "scripts": {
-    "lint": "eslint .",
+    "lint": "eslint --ext .js --ext .mjs .",
     "lint.fix": "npm run lint -- --fix",
     "release": "release-it",
     "tape": "tape './test/**/*-test.js' | tap-arc",
