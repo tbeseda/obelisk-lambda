@@ -8,19 +8,36 @@
     "index.js"
   ],
   "scripts": {
-    "lint": "biome ci index.js",
+    "lint": "eslint .",
+    "lint.fix": "npm run lint -- --fix",
+    "release": "release-it",
     "tape": "tape './test/**/*-test.js' | tap-arc",
     "test": "npm run lint && npm run tape"
   },
   "author": "tbeseda",
   "license": "MIT",
   "dependencies": {
-    "find-my-way": "^7.6.2"
+    "find-my-way": "^7.7.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.0.0",
-    "@types/aws-lambda": "^8.10.119",
-    "tap-arc": "^0.4.0",
-    "tape": "^5.6.6"
+    "@types/aws-lambda": "^8.10.125",
+    "eslint": "^8.52.0",
+    "eslint-config-standard": "^17.1.0",
+    "release-it": "^16.2.1",
+    "tap-arc": "^1.2.0",
+    "tape": "^5.7.2"
+  },
+  "eslintConfig": {
+    "extends": "standard",
+    "ignorePatterns": [
+      "**/vendor"
+    ],
+    "rules": {
+      "space-unary-ops": 0,
+      "comma-dangle": [
+        "error",
+        "always-multiline"
+      ]
+    }
   }
 }
