@@ -95,16 +95,12 @@ router.on('GET', '/things/:id', ({ params }) => {
   }
 })
 
-router.on(
-  'GET',
-  '/things/near/:lat-:lng/radius/:r',
-  async ({ params, store, searchParams }) => {
-    return {
-      statusCode: 200,
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ params, store, searchParams }),
-    }
-  },
-)
+router.on('GET', '/things/near/:lat-:lng/radius/:r', async ({ params, store, searchParams }) => {
+  return {
+    statusCode: 200,
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ params, store, searchParams }),
+  }
+})
 
 export default router

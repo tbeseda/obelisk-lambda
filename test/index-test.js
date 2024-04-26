@@ -1,20 +1,14 @@
 import test from 'tape'
-import { ObeliskRouter } from '../index.js'
 import router from '../example/src/http/any-catchall/router.mjs'
-import { rootRequest, context } from './mocks.js'
+import { ObeliskRouter } from '../index.js'
+import { context, rootRequest } from './mocks.js'
 
 test('ObeliskRouter', async (t) => {
-  t.ok(
-    router instanceof ObeliskRouter,
-    'router is an instance of ObeliskRouter',
-  )
+  t.ok(router instanceof ObeliskRouter, 'router is an instance of ObeliskRouter')
 
   const lambdaHandler = router.mount()
 
-  t.ok(
-    typeof lambdaHandler === 'function',
-    'router.mount() returns a function',
-  )
+  t.ok(typeof lambdaHandler === 'function', 'router.mount() returns a function')
 
   const result = await lambdaHandler(rootRequest, context)
 

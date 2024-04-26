@@ -5,7 +5,7 @@ export class ObeliskRouter {
   router
   handlers = new Map()
 
-  constructor ({ defaultRoute }) {
+  constructor({ defaultRoute }) {
     this.defaultRoute = defaultRoute
     this.router = FindMyWay({
       ignoreTrailingSlash: true,
@@ -13,12 +13,12 @@ export class ObeliskRouter {
     })
   }
 
-  prettyPrint () {
+  prettyPrint() {
     return this.router.prettyPrint()
   }
 
   // handle find-my-way ordered args
-  on (method, path, callbackOrOptions, callback, store) {
+  on(method, path, callbackOrOptions, callback, store) {
     let handler = callback
     let options = callbackOrOptions
 
@@ -39,7 +39,7 @@ export class ObeliskRouter {
    * @description Mounts the router to a Lambda handler
    * @returns {import("aws-lambda").Handler}
    */
-  mount () {
+  mount() {
     /**
      * @description The mounted Lambda handler
      * @param {import("aws-lambda").APIGatewayProxyEventV2} event
@@ -79,12 +79,10 @@ export class ObeliskRouter {
 
         if (returnResult) {
           return returnResult
-        } else {
-          return this.defaultRoute(payload)
         }
-      } else {
         return this.defaultRoute(payload)
       }
+      return this.defaultRoute(payload)
     }
   }
 }
